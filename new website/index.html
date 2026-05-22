@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Catering & Decorators</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #f7e7b2;
+            background: #090909;
+        }
+        header {
+            background-color: rgba(16, 16, 16, 0.95);
+            color: #f7e7b2;
+            padding: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo img {
+            height: 140px;
+            width: 180px;
+            display: block;
+            object-fit: contain;
+        }
+        .header-text {
+            flex: 1 1 320px;
+            text-align: center;
+        }
+        nav {
+            background-color: #111111;
+            padding: 0.5rem;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        nav li {
+            margin: 0.5rem 1rem;
+        }
+        nav a {
+            color: #f7e7b2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #ffd056;
+        }
+        .hero {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            color: white;
+        }
+        .hero video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: auto;
+            min-width: 100%;
+            min-height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            z-index: 1;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 2;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 900px;
+            padding: 2rem;
+        }
+        .hero-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .thank-you-message {
+            display: inline-block;
+            background: rgba(255, 208, 90, 0.18);
+            color: #ffd05b;
+            border: 1px solid rgba(255, 208, 90, 0.35);
+            padding: 0.85rem 1.1rem;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .location-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1rem;
+            border-radius: 999px;
+            background: rgba(255, 208, 90, 0.18);
+            color: #ffd05b;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 208, 90, 0.35);
+        }
+        .location-tab svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffd05b;
+        }
+        .slider-3d {
+            margin: 2rem auto;
+            max-width: 940px;
+            perspective: 1200px;
+        }
+        .slider-inner {
+            position: relative;
+            width: 100%;
+            min-height: 320px;
+            transform-style: preserve-3d;
+            transition: transform 0.7s ease;
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 280px;
+            min-height: 280px;
+            padding: 1.6rem;
+            box-sizing: border-box;
+            border-radius: 18px;
+            background: rgba(18, 18, 18, 0.96);
+            box-shadow: 0 20px 40px rgba(255, 193, 0, 0.18);
+            transform-origin: center center;
+            backface-visibility: hidden;
+            opacity: 0;
+            transition: transform 0.7s ease, opacity 0.7s ease;
+        }
+        .slide h3 {
+            margin-top: 0;
+            color: #ffd05b;
+        }
+        .slide img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            object-fit: cover;
+            max-height: 170px;
+        }
+        .slide.active {
+            transform: translateX(-50%) translateZ(0px) scale(1);
+            opacity: 1;
+            left: 50%;
+            z-index: 3;
+        }
+        .slide.left {
+            transform: translateX(-310px) translateZ(-120px) rotateY(20deg) scale(0.92);
+            opacity: 0.8;
+            left: 50%;
+            z-index: 2;
+        }
+        .slide.right {
+            transform: translateX(310px) translateZ(-120px) rotateY(-20deg) scale(0.92);
+            opacity: 0.8;
+            left: 50%;
+            z-index: 2;
+        }
+        .slide.hidden {
+            transform: translateX(-50%) translateZ(-300px) scale(0.8);
+            opacity: 0;
+            z-index: 1;
+        }
+        .slider-controls {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .slider-controls button {
+            border: none;
+            background: #ffd05b;
+            color: #111111;
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s ease;
+        }
+        .slider-controls button:hover {
+            background: #f2c637;
+        }
+        section {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .services {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .service {
+            flex: 1 1 300px;
+            margin: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 208, 90, 0.35);
+            border-radius: 10px;
+            text-align: center;
+            background: rgba(20, 20, 20, 0.95);
+        }
+        .service h3 {
+            margin-top: 0;
+            color: #ffd05b;
+        }
+        .booking-form {
+            display: grid;
+            gap: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .booking-form label {
+            font-weight: 600;
+            color: #f7e7b2;
+        }
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            width: 100%;
+            padding: 0.95rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 208, 90, 0.35);
+            background: rgba(18, 18, 18, 0.9);
+            color: #f7e7b2;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .booking-form textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+        .booking-form button {
+            width: fit-content;
+            padding: 0.95rem 1.6rem;
+            border: none;
+            border-radius: 999px;
+            background: #ffd05b;
+            color: #111111;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .booking-form button:hover {
+            background: #f2c637;
+            transform: translateY(-2px);
+        }
+        footer {
+            background-color: #111111;
+            color: #f7e7b2;
+            text-align: center;
+            padding: 1rem;
+        }
+        .whatsapp-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 62px;
+            height: 62px;
+            background: #c9a43f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+            z-index: 20;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .whatsapp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+        }
+        .whatsapp-button svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+        .chat-widget {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 320px;
+            max-height: 520px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            border-radius: 24px;
+            overflow: hidden;
+            background: rgba(12, 12, 12, 0.98);
+            z-index: 30;
+            transform: translateY(30px);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+        .chat-widget.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.9rem 1rem;
+            background: #111111;
+            border-bottom: 1px solid rgba(255, 208, 90, 0.18);
+        }
+        .chat-header h3 {
+            margin: 0;
+            color: #ffd05b;
+            font-size: 1rem;
+        }
+        .chat-close {
+            background: transparent;
+            border: none;
+            color: #f7e7b2;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+        .chat-messages {
+            padding: 1rem;
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            background: linear-gradient(180deg, rgba(10,10,10,0.96), rgba(18,18,18,0.96));
+        }
+        .chat-message {
+            max-width: 90%;
+            padding: 0.95rem 1rem;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+        .chat-message.user {
+            align-self: flex-end;
+            background: #ffd05b;
+            color: #111111;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-message.bot {
+            align-self: flex-start;
+            background: rgba(255, 208, 90, 0.15);
+            color: #f7e7b2;
+            border-bottom-left-radius: 4px;
+        }
+        .chat-input-row {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: #111111;
+            border-top: 1px solid rgba(255, 208, 90, 0.12);
+        }
+        .chat-input-row input {
+            flex: 1;
+            border: 1px solid rgba(255, 208, 90, 0.22);
+            border-radius: 999px;
+            padding: 0.95rem 1rem;
+            background: rgba(18, 18, 18, 0.9);
+            color: #f7e7b2;
+            outline: none;
+        }
+        .chat-input-row button {
+            border: none;
+            background: #ffd05b;
+            color: #111111;
+            border-radius: 999px;
+            padding: 0.95rem 1.25rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .chat-input-row button:hover {
+            background: #f2c637;
+        }
+        .chat-toggle-button {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            background: #c9a43f;
+            border: none;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 25;
+            color: white;
+            font-size: 1.4rem;
+        }
+        .chat-toggle-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+        }
+        .chat-toggle-button svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+        @media (max-width: 768px) {
+            .hero-content h2 {
+                font-size: 2.2rem;
+            }
+            .slide {
+                width: 90%;
+                left: 50%;
+            }
+            .slide.left,
+            .slide.right {
+                transform: translateX(-50%) translateZ(-100px) rotateY(0deg) scale(0.94);
+            }
+            .slider-inner {
+                min-height: 380px;
+            }
+            .chat-widget {
+                width: calc(100% - 32px);
+                left: 16px;
+                right: 16px;
+                bottom: 16px;
+            }
+            .chat-toggle-button {
+                left: auto;
+                right: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <img src="logo.png" alt="Royal Catering & Decorations logo">
+            </div>
+            <div class="header-text">
+                <h1>Welcome to Royal Catering & Decorator services
+                    </h1>
+                <p>Making your events unforgettable with delicious food and beautiful decor.</p>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <section id="home" class="hero">
+        <video autoplay muted loop playsinline>
+            <source src="Firefly Royal Caterers & Decorators text becomes video people are making food and decorating 239479.mp4" type="video/mp4">
+            <source src="background.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
+                <div class="location-tab">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+                Location: irfan pakwan house no 40 street kashmir colony sector A kashmir colony karachi, Karachi
+            </div>
+            <h2>Your Dream Event Starts Here</h2>
+            <p>We specialize in catering and decoration for weddings, parties, corporate events, and more.</p>
+            <div class="slider-3d">
+                <div class="slider-inner" id="sliderInner">
+                    <div class="slide active">
+                        <img src="Chicken Biryani 😍.jpeg" alt="Elegant catering setup">
+                        <h3>Elegant Catering</h3>
+                        <p>Custom menus designed for every taste, using fresh seasonal ingredients and beautiful presentation.</p>
+                    </div>
+                    <div class="slide right">
+                        <img src="15  Creative Buffet Set Up Ideas for Entertaining.jpeg" alt="Stunning event decor">
+                        <h3>Stunning Decor</h3>
+                        <p>Stylish floral designs, lighting, and table settings that transform any venue into a showpiece.</p>
+                    </div>
+                    <div class="slide hidden">
+                        <img src="wedding-dreamz-iZit-SCQAdA-unsplash.jpg" alt="Professional event planning">
+                        <h3>Seamless Planning</h3>
+                        <p>Our team handles logistics, coordination, and setup so you can enjoy every moment.</p>
+                    </div>
+                </div>
+                <div class="slider-controls">
+                    <button id="prevBtn">Previous</button>
+                    <button id="nextBtn">Next</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="services">
+        <h2>Our Services</h2>
+        <div class="services">
+            <div class="service">
+                <h3>Catering</h3>
+                <p>Delicious, customized menus for any occasion. From appetizers to desserts, we cater to all dietary needs.</p>
+            </div>
+            <div class="service">
+                <h3>Decoration</h3>
+                <p>Transform your space with elegant themes, lighting, flowers, and more. Tailored to your vision.</p>
+            </div>
+            <div class="service">
+                <h3>Event Planning</h3>
+                <p>Full-service event coordination to ensure everything runs smoothly from start to finish.</p>
+            </div>
+        </div>
+    </section>
+    <section id="about">
+        <h2>About Us</h2>
+        <p>With years of experience, our team is dedicated to creating memorable experiences. We use only the finest ingredients and high-quality materials to bring your ideas to life.</p>
+    </section>
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <p>Ready to plan your event? Get in touch!</p>
+        <p>Email: anddecorationroyalcatering@gmail.com
+| Phone: +92 342 2339160</p>
+    </section>
+    <footer>
+        <p>&copy; 2026 Catering & Decoration Services. All rights reserved.</p>
+    </footer>
+    <a class="whatsapp-button" href="https://wa.me/+923422339160" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M16.023 3C9.383 3 4 8.392 4 15.022c0 2.645.776 5.099 2.116 7.168L4 29l6.987-2.309A11.958 11.958 0 0016.023 27C22.644 27 28 21.608 28 15.022 28 8.392 22.617 3 16.023 3zm0 22.065c-2.158 0-4.193-.657-5.91-1.785l-.422-.252-4.145 1.37 1.404-4.048-.274-.434A9.933 9.933 0 016.023 15.02c0-5.522 4.478-10 10-10 5.522 0 10 4.478 10 10 0 5.523-4.478 10-10 10zm5.58-6.756c-.313-.156-1.847-.912-2.133-1.016-.287-.104-.497-.156-.706.156-.207.312-.797 1.016-.978 1.223-.178.207-.356.234-.668.078-.313-.156-1.32-.486-2.516-1.556-.93-.83-1.558-1.855-1.742-2.168-.186-.313-.02-.482.137-.637.14-.138.312-.356.468-.535.156-.178.208-.312.313-.52.104-.207.052-.39-.026-.546-.078-.156-.706-1.7-.968-2.333-.255-.61-.515-.528-.706-.538l-.6-.01c-.207 0-.543.078-.828.39-.287.312-1.095 1.07-1.095 2.61 0 1.54 1.122 3.03 1.28 3.244.156.208 2.212 3.373 5.358 4.73.75.323 1.334.516 1.788.662.75.24 1.433.206 1.973.125.602-.088 1.847-.756 2.106-1.488.26-.731.26-1.36.181-1.489-.078-.13-.287-.208-.6-.364z"/>
+        </svg>
+    </a>
+    <button class="chat-toggle-button" aria-label="Open AI chat">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H8l-4 4V4zm2 2v8.17L6.83 12H18V6H6z"/></svg>
+    </button>
+    <div class="chat-widget" id="chatWidget" aria-hidden="true">
+        <div class="chat-header">
+            <h3>Event AI Assistant</h3>
+            <button class="chat-close" id="chatClose" aria-label="Close chat">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message bot">Hi there! Ask me about catering, decoration, or how we can help with your event.</div>
+        </div>
+        <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Type your question..." aria-label="Chat message input">
+            <button id="chatSend">Send</button>
+        </div>
+    </div>
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let activeIndex = 0;
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.className = 'slide';
+                if (index === activeIndex) {
+                    slide.classList.add('active');
+                } else if (index === (activeIndex + 1) % slides.length) {
+                    slide.classList.add('right');
+                } else if (index === (activeIndex - 1 + slides.length) % slides.length) {
+                    slide.classList.add('left');
+                } else {
+                    slide.classList.add('hidden');
+                }
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            activeIndex = (activeIndex - 1 + slides.length) % slides.length;
+            updateSlides();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            activeIndex = (activeIndex + 1) % slides.length;
+            updateSlides();
+        });
+
+        updateSlides();
+
+        const chatWidget = document.getElementById('chatWidget');
+        const chatToggle = document.querySelector('.chat-toggle-button');
+        const chatClose = document.getElementById('chatClose');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+
+        function appendMessage(text, sender) {
+            const message = document.createElement('div');
+            message.className = `chat-message ${sender}`;
+            message.textContent = text;
+            chatMessages.appendChild(message);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function generateAiResponse(question) {
+            const normalized = question.toLowerCase();
+            if (normalized.includes('menu') || normalized.includes('food') || normalized.includes('catering')) {
+                return 'We offer custom menus for weddings, parties, and corporate events with vegetarian, non-vegetarian, and dessert options.';
+            }
+            if (normalized.includes('decoration') || normalized.includes('theme') || normalized.includes('decor')) {
+                return 'Our decoration packages include florals, lighting, table styling, and venue design to match your vision.';
+            }
+            if (normalized.includes('price') || normalized.includes('cost') || normalized.includes('budget')) {
+                return 'Pricing depends on guest count and package choices. Contact us with event details and we will send a tailored quote.';
+            }
+            if (normalized.includes('contact') || normalized.includes('phone') || normalized.includes('email')) {
+                return 'You can reach us at anddecorationroyalcatering@gmail.com or +92 342 2339160 for bookings and inquiries.';
+            }
+            return 'Great question! Tell me more about your event and I can suggest catering and decoration options.';
+        }
+
+        function sendChatMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            appendMessage(text, 'user');
+            chatInput.value = '';
+            chatInput.focus();
+            setTimeout(() => {
+                appendMessage(generateAiResponse(text), 'bot');
+            }, 600);
+        }
+
+        chatToggle.addEventListener('click', () => {
+            chatWidget.classList.toggle('open');
+            chatWidget.setAttribute('aria-hidden', chatWidget.classList.contains('open') ? 'false' : 'true');
+            if (chatWidget.classList.contains('open')) {
+                chatInput.focus();
+            }
+        });
+
+        chatClose.addEventListener('click', () => {
+            chatWidget.classList.remove('open');
+            chatWidget.setAttribute('aria-hidden', 'true');
+        });
+
+        chatSend.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendChatMessage();
+            }
+        });
+    </script>
+</body>
+</html>
